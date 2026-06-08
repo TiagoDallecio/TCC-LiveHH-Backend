@@ -6,7 +6,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class Action {
-    private final String playerId;
-    private final String type; //FOLD, CALL, RAISE, CHECK
+    private final String actionId;
+    private final int actorSeat;
+    private final ActionType type;
     private final double amount;
 }
