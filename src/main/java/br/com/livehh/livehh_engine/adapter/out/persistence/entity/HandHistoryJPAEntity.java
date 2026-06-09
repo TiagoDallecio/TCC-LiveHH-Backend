@@ -36,6 +36,9 @@ public class HandHistoryJPAEntity {
     @Column(name = "processed_at")
     private OffsetDateTime processedAt;
 
+    @Column(name = "bet_category", length = 50)
+    private String betCategory;
+
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "raw_payload", columnDefinition = "jsonb")
     private String rawPayload;

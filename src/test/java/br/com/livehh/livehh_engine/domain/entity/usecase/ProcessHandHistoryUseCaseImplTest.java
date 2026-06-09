@@ -2,10 +2,13 @@ package br.com.livehh.livehh_engine.domain.entity.usecase;
 
 import br.com.livehh.livehh_engine.adapter.out.persistence.HandHistoryRepository;
 import br.com.livehh.livehh_engine.adapter.out.persistence.entity.HandHistoryJPAEntity; // Ajuste o nome se for JPAEntity
+import br.com.livehh.livehh_engine.domain.entity.BetCategory;
 import br.com.livehh.livehh_engine.domain.entity.EpistemicWindow;
 import br.com.livehh.livehh_engine.domain.entity.HandHistory;
+import br.com.livehh.livehh_engine.domain.service.BetClassificationDomainService;
 import br.com.livehh.livehh_engine.domain.strategy.CalibratedEvCalculator;
 import br.com.livehh.livehh_engine.domain.strategy.StrictEvCalculator;
+import br.com.livehh.livehh_engine.domain.valueobject.ActionMathContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -33,6 +36,9 @@ class ProcessHandHistoryUseCaseImplTest {
     @Mock
     private CalibratedEvCalculator calibratedEvCalculator;
 
+    @Mock
+    private BetClassificationDomainService classificationService;
+
     // O Mockito injeta os mocks automaticamente no construtor do nosso UseCase
     @InjectMocks
     private ProcessHandHistoryUseCaseImpl useCase;
@@ -47,6 +53,8 @@ class ProcessHandHistoryUseCaseImplTest {
         when(handHistory.hasAmbiguousWindows()).thenReturn(false);
         when(handHistory.getHandId()).thenReturn("hand-123");
         when(handHistory.getGameType()).thenReturn("NLHE");
+        when(classificationService.classifyHeroBet(anyString(), any(ActionMathContext.class)))
+                .thenReturn(BetCategory.SEMI_BLUFF);
 
         // Forçamos o calculador estrito a retornar um EV conhecido
         when(strictEvCalculator.calculate(any())).thenReturn(50.5);
@@ -82,6 +90,8 @@ class ProcessHandHistoryUseCaseImplTest {
         when(handHistory.hasAmbiguousWindows()).thenReturn(true);
         when(handHistory.getHandId()).thenReturn("hand-456");
         when(handHistory.getGameType()).thenReturn("NLHE");
+        when(classificationService.classifyHeroBet(anyString(), any(ActionMathContext.class)))
+                .thenReturn(BetCategory.PURE_BLUFF);
 
         EpistemicWindow windowMock = mock(EpistemicWindow.class);
         when(handHistory.getEpistemicWindows()).thenReturn(List.of(windowMock));
