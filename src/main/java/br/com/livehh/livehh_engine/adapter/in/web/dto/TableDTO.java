@@ -5,9 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record TableDTO(
-        Integer maxSeats,
-        String gameType,
-        StakesDTO stakes,
-        Integer buttonSeat
+        Integer buttonSeat,
+        Long smallBlind,
+        Long bigBlind
 ) {
 }

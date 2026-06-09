@@ -5,7 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record WinnerDTO(
-        Integer seat,
-        Long amountWon
+        Integer actorSeat,
+        Long amountWon,
+        String handDescription
 ) {
 }

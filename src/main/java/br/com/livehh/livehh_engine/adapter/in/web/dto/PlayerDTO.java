@@ -9,8 +9,9 @@ import java.util.List;
 public record PlayerDTO(
         Integer seat,
         String playerId,
-        Long startingStack,
         Boolean isHero,
+        Long stackInitial,
+        Long stackFinal,
         List<String> holeCards
 ) {
 }

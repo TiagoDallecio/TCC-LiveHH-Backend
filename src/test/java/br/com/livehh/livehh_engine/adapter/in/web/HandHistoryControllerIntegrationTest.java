@@ -22,30 +22,39 @@ class HandHistoryControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldAcceptMockedHandHistoryAndReturn201Created() {
+        // Atualizado com a estrutura correta do JSON gerada pelo TCC
         String mockPayload = """
                 {
                   "schema_version": "1.0.0",
-                  "hand_id": "hand_2026_06_06_001",
                   "metadata": {
-                    "currency_unit": "chips",
-                    "generated_at": "2026-06-06T14:30:00Z",
-                    "source": { "type": "synthetic", "identifier": "mock_for_java_integration" },
-                    "inference_engine_version": "0.5.0-mock"
+                    "hand_id": "hand_2026_06_06_001",
+                    "table_id": "table_TCC",
+                    "timestamp_start": "2026-06-06T14:30:00",
+                    "timestamp_end": "2026-06-06T14:35:00",
+                    "currency": "USD",
+                    "game_type": "NLHE",
+                    "stakes": "1/2"
                   },
                   "table": {
-                    "max_seats": 6,
-                    "game_type": "NLHE",
-                    "stakes": { "small_blind": 1, "big_blind": 2 },
-                    "button_seat": 1
+                    "button_seat": 1,
+                    "small_blind": 1,
+                    "big_blind": 2
                   },
                   "players": [
-                    { "seat": 1, "player_id": "p1", "starting_stack": 200, "is_hero": true }
+                    { 
+                      "seat": 1, 
+                      "player_id": "p1", 
+                      "stack_initial": 200, 
+                      "stack_final": 200, 
+                      "is_hero": true,
+                      "hole_cards": ["Ah", "Kh"] 
+                    }
                   ],
                   "streets": [],
                   "result": {
-                    "pots": [
-                      { "amount": 15, "pot_type": "main", "eligible_seats": [3, 4], "winners": [] }
-                    ]
+                    "pot_final": 15,
+                    "board": [],
+                    "winners": []
                   }
                 }
                 """;

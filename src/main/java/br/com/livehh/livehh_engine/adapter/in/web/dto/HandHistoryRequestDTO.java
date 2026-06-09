@@ -10,7 +10,6 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record HandHistoryRequestDTO(
         String schemaVersion,
-        String handId,
         MetadataDTO metadata,
         TableDTO table,
         List<PlayerDTO> players,

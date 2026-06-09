@@ -7,8 +7,8 @@ import java.util.List;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record StreetDTO(
-        String name,
-        List<String> boardCards,
+        String street,
+        List<String> board,
         List<ActionDTO> actions
 ) {
 }

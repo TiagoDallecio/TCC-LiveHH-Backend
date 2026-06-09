@@ -7,6 +7,8 @@ import java.util.List;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record ResultDTO(
-        List<PotDTO> pots
+        Long potFinal,
+        List<String> board,
+        List<WinnerDTO> winners
 ) {
 }

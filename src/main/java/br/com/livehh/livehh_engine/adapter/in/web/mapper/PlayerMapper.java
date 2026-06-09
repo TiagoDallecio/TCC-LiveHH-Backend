@@ -9,5 +9,6 @@ import org.mapstruct.Mapping;
 public interface PlayerMapper {
 
     @Mapping(source = "isHero", target = "hero")
+    @Mapping(source = "stackInitial", target = "startingStack")
     Player toDomain(PlayerDTO playerDTO);
 }

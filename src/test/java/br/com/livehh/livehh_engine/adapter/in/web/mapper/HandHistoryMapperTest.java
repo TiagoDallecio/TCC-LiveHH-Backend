@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,18 +24,34 @@ class HandHistoryMapperTest {
     @Test
     void deveMapearDtoParaDominioDeFormaIsolada() {
         // Arrange
-        TableDTO tableDTO = new TableDTO(6, "NLHE", new StakesDTO(1L, 2L, 0L), 1);
-        PlayerDTO playerDTO = new PlayerDTO(1, "p1", 200L, true, List.of("Ah", "Kh"));
-        ActionDTO actionDTO = new ActionDTO("act_1", 1, "RAISE", 10L, "high", null);
+
+        MetadataDTO metadataDTO = new MetadataDTO(
+                "hand_mock",
+                "table_TCC",
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                "USD",
+                "NLHE",
+                "1/2"
+        );
+
+        // 2. TableDTO agora recebe apenas buttonSeat, smallBlind e bigBlind
+        TableDTO tableDTO = new TableDTO(1, 1L, 2L);
+
+        // 3. PlayerDTO agora recebe stackInitial e stackFinal
+        PlayerDTO playerDTO = new PlayerDTO(1, "p1", true, 200L, 200L, List.of("Ah", "Kh"));
+
+        ActionDTO actionDTO = new ActionDTO("act_1", 1, "RAISE", 10L, "0.95", null);
         StreetDTO streetDTO = new StreetDTO("PREFLOP", List.of(), List.of(actionDTO));
 
-        AlternativeDTO altDTO = new AlternativeDTO(List.of(new AssignmentDTO("act_1", 1, "CALL", 2L)), 0.15);
-        AmbiguousWindowDTO windowDTO = new AmbiguousWindowDTO("w1", "PREFLOP", List.of("act_1"), "yolov8_model", List.of(altDTO));
+        // 4. AssignmentDTO agora não tem mais actionId, apenas actorSeat, kind e amount
+        AlternativeDTO altDTO = new AlternativeDTO(List.of(new AssignmentDTO(1, "CALL", 2L)), 0.15);
+        AmbiguousWindowDTO windowDTO = new AmbiguousWindowDTO("w1", "PREFLOP", List.of("act_1"), "lexicographic_seat", List.of(altDTO));
 
+        // 5. HandHistoryRequestDTO atualizado sem o hand_id na raiz
         HandHistoryRequestDTO dto = new HandHistoryRequestDTO(
                 "1.0",
-                "hand_mock",
-                null,
+                metadataDTO,
                 tableDTO,
                 List.of(playerDTO),
                 List.of(streetDTO),
